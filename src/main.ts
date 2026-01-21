@@ -47,10 +47,10 @@ async function gameSetup() { // load assets
 
         setControls(k, kirb)
         k.add(kirb);
-        k.camScale(k.vec2(0.7, 0.7));
+        k.camScale(k.vec2(0.6, 0.6));
         k.onUpdate(() => {
-            if (kirb.pos.x < level1Layout.pos.x + 432)
-                k.camPos(kirb.pos.x + 500, 800);
+            if (kirb.pos.x < level1Layout.pos.x + 400)
+                k.camPos(kirb.pos.x + 800, 500);
         });
 
         for (const flame of level1SpawnPoints.flame) {
