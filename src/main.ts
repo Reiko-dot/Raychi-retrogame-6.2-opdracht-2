@@ -19,10 +19,10 @@ async function gameSetup() { // load assets
         }
     });
 
-    k.loadSprite("level-1", "./level-1.png");
+    k.loadSprite("level-1-renewed", "./level-1-renewed.png");
 
     const { map: level1Layout, spawnPoints: level1SpawnPoints } = await makeMap(
-        k, "level-1");
+        k, "level-1-renewed");
 
 
 
