@@ -28,40 +28,41 @@ async function gameSetup() { // load assets
 
 
 
-    k.scene("level-1", () => {
+    k.scene("level-1", () => { // define level-1 scene
         k.setGravity(2100);
         k.add([ //create game objects
-            k.rect(k.width(), k.height()), k.color(k.Color.fromHex("#f7d7db")), k.fixed()]);
+            k.rect(k.width(), k.height()), k.color(k.Color.fromHex("#ffffff")), k.fixed()]);
 
-        k.add(level1Layout);
+        k.add(level1Layout); // add the level layout to the scene
 
-
-
-
-
-        const kirb = makePlayer(
+        const kirb = makePlayer( // create the player
             k,
-            level1SpawnPoints.player[0].x,
-            level1SpawnPoints.player[0].y
+            level1SpawnPoints.player[0].x, // x position from spawn points
+            level1SpawnPoints.player[0].y // y position from spawn points
         );
 
-        setControls(k, kirb)
-        k.add(kirb);
-        k.camScale(k.vec2(0.6, 0.6));
-        k.onUpdate(() => {
-            if (kirb.pos.x < level1Layout.pos.x + 400)
-                k.camPos(kirb.pos.x + 800, 500);
-        });
-
+        setControls(k, kirb) // set up player controls
+        k.add(kirb); // add player to the scene
+        k.camScale(k.vec2(0.6, 0.6)); // set camera zoom level
+        
+        k.onUpdate(() => { // update camera position every frame
+            if (kirb.pos.x < level1Layout.pos.x + 400) // left boundary
+                k.camPos(kirb.pos.x + 500, 600); // Camera follows player (left/right and up/down)
+            else if (kirb.pos.x > level1Layout.pos.x + 4320 - 432) // right boundary
+                k.camPos(kirb.pos.x - 500 + 4320, 800); // Camera follows player (left/right and up/down)
+            else 
+                k.camPos(kirb.pos.x, 800); // Camera follows player (left/right and up/down)
+        }); // <-- Added closing parenthesis here
         for (const flame of level1SpawnPoints.flame) {
             makeFlameEnemy(k, flame.x, flame.y);
         }
     });
 
+
     k.go("level-1");
 
-
 }
+
 
 gameSetup();
 
