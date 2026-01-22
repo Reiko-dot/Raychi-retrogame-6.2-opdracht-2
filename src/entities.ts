@@ -262,47 +262,47 @@ export function makeFlameEnemy(k: KaboomCtx, posX: number, posY: number) {
   return flame;
 }
 
-export function makeGuyEnemy(k: KaboomCtx, posX: number, posY: number) {
+export function makeGuyEnemy(k: KaboomCtx, posX: number, posY: number) { // npc that walks left and right
   const guy = k.add([
-    k.sprite("assets", { anim: "guyWalk" }),
-    k.scale(scale),
-    k.pos(posX * scale, posY * scale),
-    k.area({
-      shape: new k.Rect(k.vec2(2, 3.9), 12, 12),
-      collisionIgnore: ["enemy"],
+    k.sprite("assets", { anim: "guyWalk" }), // walking animation
+    k.scale(scale), // scale it properly
+    k.pos(posX * scale, posY * scale),  // position it correctly
+    k.area({ // collision area
+      shape: new k.Rect(k.vec2(2, 3.9), 12, 12), // size of the collision box
+      collisionIgnore: ["enemy"], // ignore collisions with other enemies
     }),
-    k.body(),
-    k.state("idle", ["idle", "left", "right", "jump"]),
-    { isInhalable: false, speed: 100 },
+    k.body(), // physics body
+    k.state("idle", ["idle", "left", "right", "jump"]), // states for the guy npc
+    { isInhalable: false, speed: 100 }, // custom properties
     "enemy",
   ]);
 
-  makeInhalable(k, guy);
+  makeInhalable(k, guy); // make the guy inhalable
 
-  guy.onStateEnter("idle", async () => {
-    await k.wait(1);
-    guy.enterState("left");
+  guy.onStateEnter("idle", async () => { // initial state
+    await k.wait(1); // wait for 1 second
+    guy.enterState("left"); // then start walking left
   });
 
-  guy.onStateEnter("left", async () => {
-    guy.flipX = false;
-    await k.wait(2);
-    guy.enterState("right");
+  guy.onStateEnter("left", async () => { // when entering left state
+    guy.flipX = false; // face left
+    await k.wait(2); // walk for 2 seconds
+    guy.enterState("right"); // then switch to walking right
   });
 
-  guy.onStateUpdate("left", () => {
-    guy.move(-guy.speed, 0);
+  guy.onStateUpdate("left", () => { // while in left state
+    guy.move(-guy.speed, 0); // move left at defined speed
   });
 
-  guy.onStateEnter("right", async () => {
-    guy.flipX = true;
-    await k.wait(2);
-    guy.enterState("left");
+  guy.onStateEnter("right", async () => { // when entering right state
+    guy.flipX = true; // face right
+    await k.wait(2); // walk for 2 seconds
+    guy.enterState("left"); // then switch to walking left
   });
 
-  guy.onStateUpdate("right", () => {
-    guy.move(guy.speed, 0);
+  guy.onStateUpdate("right", () => { // while in right state
+    guy.move(guy.speed, 0); // move right at defined speed
   });
 
-  return guy;
+  return guy; // return the created guy enemy
 }

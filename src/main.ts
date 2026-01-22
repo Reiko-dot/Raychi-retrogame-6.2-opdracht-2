@@ -1,6 +1,6 @@
 import { k } from "./kaboomCtx";
 import { makeMap } from "./utils";
-import { makePlayer, setControls, makeFlameEnemy } from "./entities"
+import { makePlayer, setControls, makeFlameEnemy, makeGuyEnemy } from "./entities"
 
 async function gameSetup() { // load assets
     await k.loadSprite("assets", "./kirby-like.png", {
@@ -21,7 +21,7 @@ async function gameSetup() { // load assets
 
     k.loadSprite("level-1-renewed", "./level-1-renewed.png"); // load level 1 sprite
 
-    const { map: level1Layout, spawnPoints: level1SpawnPoints } = await makeMap( 
+    const { map: level1Layout, spawnPoints: level1SpawnPoints } = await makeMap(
         k, "level-1-renewed"); // load level 1 map and spawn points
 
 
@@ -47,13 +47,17 @@ async function gameSetup() { // load assets
         kirb.onUpdate(() => { // update camera position based on player position
             if (kirb.pos.x < level1Layout.pos.x + 2000) // limit camera movement to level bounds
                 k.camPos(kirb.pos.x + 500, 600); // center camera on player with offset
-        }); 
+        });
 
         for (const flame of level1SpawnPoints.flame) { // create flame enemies at spawn points
             makeFlameEnemy(k, flame.x, flame.y); // create flame enemy
         }
+
+        for (const guy of level1SpawnPoints.guy) { // create guy enemies at spawn points
+            makeGuyEnemy(k, guy.x, guy.y); // create guy enemy
+        }
     });
-       
+
 
 
     k.go("level-1"); // start the game at level-1 scene
