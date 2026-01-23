@@ -1,6 +1,7 @@
 import { k } from "./kaboomCtx";
 import { makeMap } from "./utils";
 import { makePlayer, setControls, makeFlameEnemy, makeGuyEnemy } from "./entities"
+import { globalGameState } from "./state";
 
 async function gameSetup() { // load assets
     await k.loadSprite("assets", "./kirby-like.png", {
@@ -20,18 +21,29 @@ async function gameSetup() { // load assets
     });
 
     k.loadSprite("level-1-renewed", "./level-1-renewed.png"); // load level 1 sprite
+    k.loadSprite("level-2", "./level-2.png"); // load level 2 sprite
 
     const { map: level1Layout, spawnPoints: level1SpawnPoints } = await makeMap(
         k, "level-1-renewed"); // load level 1 map and spawn points
 
+    const { map: level2Layout, spawnPoints: level2SpawnPoints } = await makeMap(
+        k,
+        "level-2"
+    );
 
 
 
 
-    k.scene("level-1", () => { // define level-1 scene
-        k.setGravity(2100); // set gravity for the scene
-        k.add([ //create game objects
-            k.rect(k.width(), k.height()), k.color(k.Color.fromHex("#ffffff")), k.fixed()]); // white background
+
+    k.scene("level-1", async () => {
+        globalGameState.setCurrentScene("level-1");
+        globalGameState.setNextScene("level-2");
+        k.setGravity(2100);
+        k.add([
+            k.rect(k.width(), k.height()),
+            k.color(k.Color.fromHex("#ffffff")),
+            k.fixed(),
+        ]);
 
         k.add(level1Layout); // add the level layout to the scene
 
@@ -59,6 +71,45 @@ async function gameSetup() { // load assets
     });
 
 
+
+    k.scene("level-2", () => {
+        globalGameState.setCurrentScene("level-2");
+        globalGameState.setNextScene("level-1");
+        k.setGravity(2100);
+        k.add([
+            k.rect(k.width(), k.height()),
+            k.color(k.Color.fromHex("#f7d7db")),
+            k.fixed(),
+        ]);
+
+        k.add(level2Layout);
+        const kirb = makePlayer(
+            k,
+            level2SpawnPoints.player[0].x,
+            level2SpawnPoints.player[0].y
+        );
+
+        setControls(k, kirb);
+        k.add(kirb);
+        k.camScale(k.vec2(0.7));
+        k.onUpdate(() => {
+            if (kirb.pos.x < level2Layout.pos.x + 2100)
+                k.camPos(kirb.pos.x + 500, 800);
+        });
+
+        for (const flame of level2SpawnPoints.flame) {
+            makeFlameEnemy(k, flame.x, flame.y);
+        }
+
+        if (level2SpawnPoints.guy) {
+            for (const guy of level2SpawnPoints.guy) {
+                makeGuyEnemy(k, guy.x, guy.y);
+            }
+        }
+
+    });
+
+     k.scene("end", () => {});
 
     k.go("level-1"); // start the game at level-1 scene
 
