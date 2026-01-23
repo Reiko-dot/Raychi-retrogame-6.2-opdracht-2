@@ -74,7 +74,7 @@ async function gameSetup() { // load assets
 
     k.scene("level-2", () => {
         globalGameState.setCurrentScene("level-2"); // set current scene to level-2
-        globalGameState.setNextScene("level-1"); // set next scene to level-1
+        globalGameState.setNextScene("level-3"); // set next scene to level-3
         k.setGravity(2100); // set gravity for the level
         k.add([ // background
             k.rect(k.width(), k.height()), // full screen rectangle
@@ -117,14 +117,14 @@ async function gameSetup() { // load assets
         ]);
 
         k.add([
-            k.text("KIRBY ADVENTURE", { size: 80, font: "sink" }), // title text
+            k.text("KIRBY'S ADVENTURE", { size: 80, font: "sink" }), // title text
             k.pos(k.width() / 2, k.height() / 2 - 150), // center near top
             k.anchor("center"), // anchor to center
         ]);
 
         const btnRect = k.add([ // button rectangle
             k.rect(200, 60), // width and height
-            k.color(k.Color.fromHex("#ff6b6b")), // red color
+            k.color(k.Color.fromHex("#fb7d7d")), // red color
             k.pos(k.width() / 2, k.height() / 2 + 130), // center under text 
             k.anchor("center"), // anchor to center
         ]);
@@ -137,7 +137,7 @@ async function gameSetup() { // load assets
             "play-btn", // tag for click detection
         ]);
 
-        btnRect.width = playText.width + 40; // adjust button size based on text
+        btnRect.width = playText.width + 100; // adjust button size based on text
         btnRect.height = playText.height + 20; // adjust button size based on text
 
         k.onClick("play-btn", () => { // on play button click
