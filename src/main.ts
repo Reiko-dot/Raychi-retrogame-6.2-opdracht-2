@@ -22,6 +22,7 @@ async function gameSetup() { // load assets
 
     k.loadSprite("level-1-renewed", "./level-1-renewed.png"); // load level 1 sprite
     k.loadSprite("level-2", "./level-2.png"); // load level 2 sprite
+    k.loadSprite("logo", "./kirbylogo.png"); // load kirby logo
 
     const { map: level1Layout, spawnPoints: level1SpawnPoints } = await makeMap( // load level 1 map and spawn points
         k, "level-1-renewed"); // load level 1 map and spawn points
@@ -116,26 +117,26 @@ async function gameSetup() { // load assets
             k.fixed(), // fixed to camera
         ]);
 
-        // Title text - "KIRBY'S ADVENTURE"
+        // Logo
         k.add([
-            k.text("KIRBY'S ADVENTURE", { size: 72, font: "sink" }), // title text in pixel font
-            k.pos(k.width() / 2, k.height() / 2 - 100), // center near top
+            k.sprite("logo"), // kirby logo sprite
+            k.pos(k.width() / 2, k.height() / 2 - 60), // center near top
             k.anchor("center"), // anchor to center
-            k.color(k.Color.fromHex("#ff69b4")), // hot pink like kirby
+            k.scale(0.7), // scale up the logo
         ]);
 
         // START button
         const startBtnRect = k.add([ // button rectangle
             k.rect(120, 50), // width and height
             k.color(k.Color.fromHex("#ffffff")), // white color
-            k.pos(k.width() / 2 - 90, k.height() / 2 + 60), // left position
+            k.pos(k.width() / 2 - 90, k.height() / 2 + 220), // left position
             k.anchor("center"), // anchor to center
             k.outline(2, k.Color.fromHex("#000000")), // black outline
         ]);
 
         const startText = k.add([ // start button text
             k.text("START", { size: 32, font: "sink" }), // start text
-            k.pos(k.width() / 2 - 90, k.height() / 2 + 60), // position on button
+            k.pos(k.width() / 2 - 90, k.height() / 2 + 220), // position on button
             k.anchor("center"), // anchor to center
             k.color(k.Color.fromHex("#000000")), // black text
             k.area(), // make it clickable
@@ -146,14 +147,14 @@ async function gameSetup() { // load assets
         const controlsBtnRect = k.add([ // button rectangle
             k.rect(120, 50), // width and height
             k.color(k.Color.fromHex("#ffffff")), // white color
-            k.pos(k.width() / 2 + 90, k.height() / 2 + 60), // right position
+            k.pos(k.width() / 2 + 90, k.height() / 2 + 220), // right position
             k.anchor("center"), // anchor to center
             k.outline(2, k.Color.fromHex("#000000")), // black outline
         ]);
 
         const controlsText = k.add([ // controls button text
             k.text("HELP", { size: 32, font: "sink" }), // help text
-            k.pos(k.width() / 2 + 90, k.height() / 2 + 60), // position on button
+            k.pos(k.width() / 2 + 90, k.height() / 2 + 220), // position on button
             k.anchor("center"), // anchor to center
             k.color(k.Color.fromHex("#000000")), // black text
             k.area(), // make it clickable
@@ -184,21 +185,21 @@ async function gameSetup() { // load assets
         ]);
 
         k.add([
-            k.text("A/D - Move Left/Right", { size: 24, font: "sink" }), // control text
+            k.text("←/→ arrow keys Move Left/Right", { size: 24, font: "sink" }), // control text
             k.pos(k.width() / 2, k.height() / 2 - 40), // position
             k.anchor("center"), // anchor to center
             k.color(k.Color.fromHex("#ffffff")), // white text
         ]);
 
         k.add([
-            k.text("SPACE - Jump", { size: 24, font: "sink" }), // control text
+            k.text("X - Jump", { size: 24, font: "sink" }), // control text
             k.pos(k.width() / 2, k.height() / 2 + 10), // position
             k.anchor("center"), // anchor to center
             k.color(k.Color.fromHex("#ffffff")), // white text
         ]);
 
         k.add([
-            k.text("W - Inhale Enemies", { size: 24, font: "sink" }), // control text
+            k.text("Z- Inhale Enemies", { size: 24, font: "sink" }), // control text
             k.pos(k.width() / 2, k.height() / 2 + 60), // position
             k.anchor("center"), // anchor to center
             k.color(k.Color.fromHex("#ffffff")), // white text
@@ -236,7 +237,7 @@ async function gameSetup() { // load assets
         ]);
 
         k.add([
-            k.text("thanks for playing", { size: 80, font: "sink" }), // thanks for playing text in pixel font
+            k.text("to be continued...", { size: 60, font: "sink" }), // thanks for playing text in pixel font
             k.pos(k.width() / 2, k.height() / 2 - 80), // center on screen
             k.anchor("center"), // anchor to center
             k.color(k.Color.fromHex("#ffffff")), // white color
