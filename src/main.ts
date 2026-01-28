@@ -74,7 +74,7 @@ async function gameSetup() { // load assets
 
     k.scene("level-2", () => {
         globalGameState.setCurrentScene("level-2"); // set current scene to level-2
-        globalGameState.setNextScene("level-3"); // set next scene to level-3
+        globalGameState.setNextScene("end"); // set next scene to end
         k.setGravity(2100); // set gravity for the level
         k.add([ // background
             k.rect(k.width(), k.height()), // full screen rectangle
@@ -112,40 +112,158 @@ async function gameSetup() { // load assets
     k.scene("start", () => { // start scene
         k.add([ // background
             k.rect(k.width(), k.height()), // full screen rectangle
-            k.color(k.Color.fromHex("#cccccc")), // light gray color
+            k.color(k.Color.fromHex("#0a1856")), // dark navy blue like in the image
+            k.fixed(), // fixed to camera
+        ]);
+
+        // Title text - "KIRBY'S ADVENTURE"
+        k.add([
+            k.text("KIRBY'S ADVENTURE", { size: 72, font: "sink" }), // title text in pixel font
+            k.pos(k.width() / 2, k.height() / 2 - 100), // center near top
+            k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#ff69b4")), // hot pink like kirby
+        ]);
+
+        // START button
+        const startBtnRect = k.add([ // button rectangle
+            k.rect(120, 50), // width and height
+            k.color(k.Color.fromHex("#ffffff")), // white color
+            k.pos(k.width() / 2 - 90, k.height() / 2 + 60), // left position
+            k.anchor("center"), // anchor to center
+            k.outline(2, k.Color.fromHex("#000000")), // black outline
+        ]);
+
+        const startText = k.add([ // start button text
+            k.text("START", { size: 32, font: "sink" }), // start text
+            k.pos(k.width() / 2 - 90, k.height() / 2 + 60), // position on button
+            k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#000000")), // black text
+            k.area(), // make it clickable
+            "start-btn", // tag for click detection
+        ]);
+
+        // CONTROLS button
+        const controlsBtnRect = k.add([ // button rectangle
+            k.rect(120, 50), // width and height
+            k.color(k.Color.fromHex("#ffffff")), // white color
+            k.pos(k.width() / 2 + 90, k.height() / 2 + 60), // right position
+            k.anchor("center"), // anchor to center
+            k.outline(2, k.Color.fromHex("#000000")), // black outline
+        ]);
+
+        const controlsText = k.add([ // controls button text
+            k.text("HELP", { size: 32, font: "sink" }), // help text
+            k.pos(k.width() / 2 + 90, k.height() / 2 + 60), // position on button
+            k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#000000")), // black text
+            k.area(), // make it clickable
+            "help-btn", // tag for click detection
+        ]);
+
+        k.onClick("start-btn", () => { // on start button click
+            k.go("level-1"); // go to level 1
+        });
+
+        k.onClick("help-btn", () => { // on help button click
+            k.go("controls"); // go to controls scene
+        });
+    });
+
+    k.scene("controls", () => { // controls/help scene
+        k.add([ // background
+            k.rect(k.width(), k.height()), // full screen rectangle
+            k.color(k.Color.fromHex("#0a1856")), // dark navy blue
             k.fixed(), // fixed to camera
         ]);
 
         k.add([
-            k.text("KIRBY'S ADVENTURE", { size: 80, font: "sink" }), // title text
-            k.pos(k.width() / 2, k.height() / 2 - 150), // center near top
+            k.text("CONTROLS", { size: 60, font: "sink" }), // title
+            k.pos(k.width() / 2, k.height() / 2 - 120), // top position
             k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#ff69b4")), // hot pink
         ]);
 
-        const btnRect = k.add([ // button rectangle
-            k.rect(200, 60), // width and height
-            k.color(k.Color.fromHex("#fb7d7d")), // red color
-            k.pos(k.width() / 2, k.height() / 2 + 130), // center under text 
+        k.add([
+            k.text("A/D - Move Left/Right", { size: 24, font: "sink" }), // control text
+            k.pos(k.width() / 2, k.height() / 2 - 40), // position
             k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#ffffff")), // white text
         ]);
 
-        const playText = k.add([ // play button text
-            k.text("PLAY", { size: 32 }), // play text
+        k.add([
+            k.text("SPACE - Jump", { size: 24, font: "sink" }), // control text
+            k.pos(k.width() / 2, k.height() / 2 + 10), // position
+            k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#ffffff")), // white text
+        ]);
+
+        k.add([
+            k.text("W - Inhale Enemies", { size: 24, font: "sink" }), // control text
+            k.pos(k.width() / 2, k.height() / 2 + 60), // position
+            k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#ffffff")), // white text
+        ]);
+
+        // BACK button
+        const backBtnRect = k.add([ // button rectangle
+            k.rect(120, 50), // width and height
+            k.color(k.Color.fromHex("#ffffff")), // white color
+            k.pos(k.width() / 2, k.height() / 2 + 130), // bottom position
+            k.anchor("center"), // anchor to center
+            k.outline(2, k.Color.fromHex("#000000")), // black outline
+        ]);
+
+        const backText = k.add([ // back button text
+            k.text("BACK", { size: 32, font: "sink" }), // back text
             k.pos(k.width() / 2, k.height() / 2 + 130), // position on button
             k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#000000")), // black text
             k.area(), // make it clickable
-            "play-btn", // tag for click detection
+            "back-btn", // tag for click detection
         ]);
 
-        btnRect.width = playText.width + 100; // adjust button size based on text
-        btnRect.height = playText.height + 20; // adjust button size based on text
-
-        k.onClick("play-btn", () => { // on play button click
-            k.go("level-1"); // go to level 1
+        k.onClick("back-btn", () => { // on back button click
+            k.go("start"); // go back to start scene
         });
     });
 
-     k.scene("end", () => {});
+    k.scene("end", () => {
+        globalGameState.setCurrentScene("end"); // set current scene to end
+        k.add([ // background
+            k.rect(k.width(), k.height()), // full screen rectangle
+            k.color(k.Color.fromHex("#000f3d")), // dark navy blue color
+            k.fixed(), // fixed to camera
+        ]);
+
+        k.add([
+            k.text("thanks for playing", { size: 80, font: "sink" }), // thanks for playing text in pixel font
+            k.pos(k.width() / 2, k.height() / 2 - 80), // center on screen
+            k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#ffffff")), // white color
+        ]);
+
+        // Menu button
+        const btnRect = k.add([ // button rectangle
+            k.rect(150, 50), // width and height
+            k.color(k.Color.fromHex("#ffffff")), // white color
+            k.pos(k.width() / 2, k.height() / 2 + 80), // center under text
+            k.anchor("center"), // anchor to center
+            k.outline(2, k.Color.fromHex("#000000")), // black border
+        ]);
+
+        const menuText = k.add([ // menu button text
+            k.text("menu", { size: 32 }), // menu text
+            k.pos(k.width() / 2, k.height() / 2 + 80), // position on button
+            k.anchor("center"), // anchor to center
+            k.color(k.Color.fromHex("#000000")), // black text
+            k.area(), // make it clickable
+            "menu-btn", // tag for click detection
+        ]);
+
+        k.onClick("menu-btn", () => { // on menu button click
+            k.go("start"); // go back to start scene
+        });
+    });
 
     k.go("start"); // start the game at start scene
 

@@ -11,6 +11,7 @@ import type {
     SpriteComp,
 } from "kaboom";
 import { scale } from "./constants";
+import { globalGameState } from "./state";
 
 type PlayerGameObj = GameObj<
     SpriteComp &
@@ -85,7 +86,7 @@ export function makePlayer(k: KaboomCtx, posX: number, posY: number) {
     });
 
     player.onCollide("exit", () => {
-        k.go("level-2"); // go to level 2.
+        k.go(globalGameState.nextScene); // go to the next scene from game state
     });
 
     const inhaleEffect = k.add([
